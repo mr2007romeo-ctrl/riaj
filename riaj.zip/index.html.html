@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BRIN CALCULATION - Unit Converter</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 30px;
+            margin-top: 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            color: #2575fc;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+        }
+
+        .tagline {
+            color: #6a11cb;
+            font-size: 1.2rem;
+            font-weight: 500;
+        }
+
+        .converter-section {
+            margin-bottom: 30px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        h2 {
+            color: #2575fc;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #f0f0f0;
+            font-size: 1.5rem;
+        }
+
+        .converter-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #555;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        input:focus, select:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(37, 117, 252, 0.2);
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #f8f9ff;
+            border-radius: 10px;
+            border-left: 4px solid #2575fc;
+            font-weight: 600;
+            color: #2575fc;
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+        }
+
+        .swap-btn {
+            background-color: #6a11cb;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: all 0.3s;
+            box-shadow: 0 3px 10px rgba(106, 17, 203, 0.3);
+        }
+
+        .swap-btn:hover {
+            background-color: #5a0db3;
+            transform: scale(1.05);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            .converter-row {
+                flex-direction: column;
+            }
+            
+            .swap-btn {
+                align-self: center;
+                margin-top: 10px;
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>BRIN CALCULATION</h1>
+            <p class="tagline">Precision Unit Conversion Tool</p>
+        </header>
+
+        <!-- Inch to Feet / Feet to Inch Converter -->
+        <section class="converter-section">
+            <h2>Inch ↔ Feet Converter</h2>
+            <div class="converter-row">
+                <div class="input-group">
+                    <label for="inch-input">Inches</label>
+                    <input type="number" id="inch-input" placeholder="Enter inches" step="0.01">
+                </div>
+                <button class="swap-btn" onclick="swapConversion('inch-feet')">⇄</button>
+                <div class="input-group">
+                    <label for="feet-input">Feet</label>
+                    <input type="number" id="feet-input" placeholder="Enter feet" step="0.01">
+                </div>
+            </div>
+            <div class="result" id="inch-feet-result">Enter a value to see the conversion</div>
+        </section>
+
+        <!-- Feet to Meter / Meter to Feet Converter -->
+        <section class="converter-section">
+            <h2>Feet ↔ Meter Converter</h2>
+            <div class="converter-row">
+                <div class="input-group">
+                    <label for="feet-meter-input">Feet</label>
+                    <input type="number" id="feet-meter-input" placeholder="Enter feet" step="0.01">
+                </div>
+                <button class="swap-btn" onclick="swapConversion('feet-meter')">⇄</button>
+                <div class="input-group">
+                    <label for="meter-input">Meters</label>
+                    <input type="number" id="meter-input" placeholder="Enter meters" step="0.01">
+                </div>
+            </div>
+            <div class="result" id="feet-meter-result">Enter a value to see the conversion</div>
+        </section>
+
+        <!-- Feet to Millimeter / Millimeter to Feet Converter -->
+        <section class="converter-section">
+            <h2>Feet ↔ Millimeter Converter</h2>
+            <div class="converter-row">
+                <div class="input-group">
+                    <label for="feet-mm-input">Feet</label>
+                    <input type="number" id="feet-mm-input" placeholder="Enter feet" step="0.01">
+                </div>
+                <button class="swap-btn" onclick="swapConversion('feet-mm')">⇄</button>
+                <div class="input-group">
+                    <label for="mm-input">Millimeters</label>
+                    <input type="number" id="mm-input" placeholder="Enter millimeters" step="0.01">
+                </div>
+            </div>
+            <div class="result" id="feet-mm-result">Enter a value to see the conversion</div>
+        </section>
+
+        <!-- Feet to Centimeter / Centimeter to Feet Converter -->
+        <section class="converter-section">
+            <h2>Feet ↔ Centimeter Converter</h2>
+            <div class="converter-row">
+                <div class="input-group">
+                    <label for="feet-cm-input">Feet</label>
+                    <input type="number" id="feet-cm-input" placeholder="Enter feet" step="0.01">
+                </div>
+                <button class="swap-btn" onclick="swapConversion('feet-cm')">⇄</button>
+                <div class="input-group">
+                    <label for="cm-input">Centimeters</label>
+                    <input type="number" id="cm-input" placeholder="Enter centimeters" step="0.01">
+                </div>
+            </div>
+            <div class="result" id="feet-cm-result">Enter a value to see the conversion</div>
+        </section>
+    </div>
+
+    <footer>
+        <p>BRIN CALCULATION &copy; 2023 | All Rights Reserved</p>
+    </footer>
+
+    <script>
+        // Conversion factors
+        const INCH_TO_FEET = 1/12;
+        const FEET_TO_METER = 0.3048;
+        const FEET_TO_MM = 304.8;
+        const FEET_TO_CM = 30.48;
+
+        // Inch to Feet / Feet to Inch conversion
+        document.getElementById('inch-input').addEventListener('input', function() {
+            const inches = parseFloat(this.value) || 0;
+            const feet = inches * INCH_TO_FEET;
+            document.getElementById('feet-input').value = feet.toFixed(4);
+            document.getElementById('inch-feet-result').textContent = 
+                `${inches} inches = ${feet.toFixed(4)} feet`;
+        });
+
+        document.getElementById('feet-input').addEventListener('input', function() {
+            const feet = parseFloat(this.value) || 0;
+            const inches = feet / INCH_TO_FEET;
+            document.getElementById('inch-input').value = inches.toFixed(4);
+            document.getElementById('inch-feet-result').textContent = 
+                `${feet} feet = ${inches.toFixed(4)} inches`;
+        });
+
+        // Feet to Meter / Meter to Feet conversion
+        document.getElementById('feet-meter-input').addEventListener('input', function() {
+            const feet = parseFloat(this.value) || 0;
+            const meters = feet * FEET_TO_METER;
+            document.getElementById('meter-input').value = meters.toFixed(4);
+            document.getElementById('feet-meter-result').textContent = 
+                `${feet} feet = ${meters.toFixed(4)} meters`;
+        });
+
+        document.getElementById('meter-input').addEventListener('input', function() {
+            const meters = parseFloat(this.value) || 0;
+            const feet = meters / FEET_TO_METER;
+            document.getElementById('feet-meter-input').value = feet.toFixed(4);
+            document.getElementById('feet-meter-result').textContent = 
+                `${meters} meters = ${feet.toFixed(4)} feet`;
+        });
+
+        // Feet to Millimeter / Millimeter to Feet conversion
+        document.getElementById('feet-mm-input').addEventListener('input', function() {
+            const feet = parseFloat(this.value) || 0;
+            const millimeters = feet * FEET_TO_MM;
+            document.getElementById('mm-input').value = millimeters.toFixed(2);
+            document.getElementById('feet-mm-result').textContent = 
+                `${feet} feet = ${millimeters.toFixed(2)} millimeters`;
+        });
+
+        document.getElementById('mm-input').addEventListener('input', function() {
+            const millimeters = parseFloat(this.value) || 0;
+            const feet = millimeters / FEET_TO_MM;
+            document.getElementById('feet-mm-input').value = feet.toFixed(4);
+            document.getElementById('feet-mm-result').textContent = 
+                `${millimeters} millimeters = ${feet.toFixed(4)} feet`;
+        });
+
+        // Feet to Centimeter / Centimeter to Feet conversion
+        document.getElementById('feet-cm-input').addEventListener('input', function() {
+            const feet = parseFloat(this.value) || 0;
+            const centimeters = feet * FEET_TO_CM;
+            document.getElementById('cm-input').value = centimeters.toFixed(2);
+            document.getElementById('feet-cm-result').textContent = 
+                `${feet} feet = ${centimeters.toFixed(2)} centimeters`;
+        });
+
+        document.getElementById('cm-input').addEventListener('input', function() {
+            const centimeters = parseFloat(this.value) || 0;
+            const feet = centimeters / FEET_TO_CM;
+            document.getElementById('feet-cm-input').value = feet.toFixed(4);
+            document.getElementById('feet-cm-result').textContent = 
+                `${centimeters} centimeters = ${feet.toFixed(4)} feet`;
+        });+f
+
+        // Swap conversion direction
+        function swapConversion(type) {
+            if (type === 'inch-feet') {
+                const inchValue = document.getElementById('inch-input').value;
+                const feetValue = document.getElementById('feet-input').value;
+                document.getElementById('inch-input').value = feetValue;
+                document.getElementById('feet-input').value = inchValue;
+                document.getElementById('inch-input').dispatchEvent(new Event('input'));
+            } else if (type === 'feet-meter') {
+                const feetValue = document.getElementById('feet-meter-input').value;
+                const meterValue = document.getElementById('meter-input').value;
+                document.getElementById('feet-meter-input').value = meterValue;
+                document.getElementById('meter-input').value = feetValue;
+                document.getElementById('feet-meter-input').dispatchEvent(new Event('input'));
+            } else if (type === 'feet-mm') {
+                const feetValue = document.getElementById('feet-mm-input').value;
+                const mmValue = document.getElementById('mm-input').value;
+                document.getElementById('feet-mm-input').value = mmValue;
+                document.getElementById('mm-input').value = feetValue;
+                document.getElementById('feet-mm-input').dispatchEvent(new Event('input'));
+            } else if (type === 'feet-cm') {
+                const feetValue = document.getElementById('feet-cm-input').value;
+                const cmValue = document.getElementById('cm-input').value;
+                document.getElementById('feet-cm-input').value = cmValue;
+                document.getElementById('cm-input').value = feetValue;
+                document.getElementById('feet-cm-input').dispatchEvent(new Event('input'));
+            }
+        }
+    </script>
+</body>
+</html>
